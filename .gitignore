@@ -1,0 +1,9 @@
+test
+__pycache__
+train_nsml.py
+requirements.txt
+data
+log
+wandb
+script*
+check*
