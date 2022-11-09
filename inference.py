@@ -28,7 +28,8 @@ def main():
                             batch_size=16,
                             shuffle=False,
                             num_workers=4)
-    checkpoint = torch.load("/home/ljj0512/private/workspace/CP_urban-datathon_CT/log/2022-11-09 14:02:59/checkpoint.pth.tar")
+    path = "/home/ljj0512/private/workspace/CP_urban-datathon_CT/log/2022-11-09 14:02:59/checkpoint.pth.tar"
+    checkpoint = torch.load(path)
     model = models.resnet18()
     model.fc = nn.Linear(in_features=512, out_features=5, bias=True)
     model.load_state_dict(checkpoint["state_dict"])
@@ -40,7 +41,7 @@ def inference(model, test_loader):
     model.cuda()
     model.eval()
     preds = []
-    submit = pd.read_csv("./sample_submission.csv")
+    submit = pd.read_csv("./1001_sample_submission.csv")
     with torch.no_grad():
         for img in (test_loader):
             img = img.cuda()
@@ -49,7 +50,7 @@ def inference(model, test_loader):
             preds += predicted.cpu().tolist()
     
     submit['result'] = preds
-    submit.to_csv('./submission.csv', index=False)
+    submit.to_csv('./1001_submission.csv', index=False)
 
 
 if __name__ == '__main__':

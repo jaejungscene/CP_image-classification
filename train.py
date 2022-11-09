@@ -109,7 +109,7 @@ def run():
                 'valid f1 score':f1, 'acc':acc, 'top-1 err': err1, 'top-5 err':err5,
                 'train loss':train_loss, 'validation loss':val_loss
             })
-        print(f'Current best score (f1, top-1, 5 error):\t{best_f1} , {best_err1} , {best_err5}')
+        print(f'Current best score (f1, acc, top-1 error, top-5 error):\t{best_f1} , {best_acc} , {best_err1} , {best_err5}')
         
 
     total_time = time.time()-start
@@ -249,7 +249,7 @@ def inference(model, test_loader):
     model.cuda()
     model.eval()
     preds = []
-    submit = pd.read_csv("./samplesubmission.csv")
+    submit = pd.read_csv("./1001_sample_submission.csv")
     with torch.no_grad():
         for img in (test_loader):
             img = img.cuda()
@@ -258,7 +258,7 @@ def inference(model, test_loader):
             preds += predicted.cpu().tolist()
     
     submit['result'] = preds
-    submit.to_csv('./submission.csv', index=False)
+    submit.to_csv('./1001_submission.csv', index=False)
 
 
 

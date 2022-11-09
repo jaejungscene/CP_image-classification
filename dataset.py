@@ -74,13 +74,11 @@ def create_dataloader(args):
 def get_transform(param):
     if param == "train":
         transform = transforms.Compose([
-                        transforms.Resize(224),
                         transforms.RandomHorizontalFlip(),
                         transforms.ToTensor(),
                     ])
     elif param == "test":
         transform = transforms.Compose([
-                        transforms.Resize(224),
                         transforms.ToTensor(),
                     ])
     return transform

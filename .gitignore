@@ -8,3 +8,5 @@ wandb
 script*
 check*
 *.csv
+*.zip
+test*
