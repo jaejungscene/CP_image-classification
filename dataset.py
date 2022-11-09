@@ -30,37 +30,57 @@ class CustomDataset(Dataset):
         label = self.df["label"].iloc[index]
         return [image, label]
 
+class TestDataset(Dataset):
+    def __init__(self, transform=None):
+        self.transform = transform
+        self.dir = "/home/ljj0512/shared/data/test"
+    
+    def __len__(self):
+        return len(os.listdir(self.dir))
+
+    def __getitem__(self, index):
+        img_path = os.listdir(self.dir)[index]
+        image = self.transform(Image.open(os.path.join(self.dir,img_path)))
+        return image
+
 
 def create_dataloader(args):
-    train_set = ImageFolder(root = DATA_DIR+"/Train",
-                        transform = get_transform("train"))
+    train_df = pd.read_csv("train_df.csv")
+    val_df = pd.read_csv("val_df.csv")
+    train_set = CustomDataset(train_df, transform=get_transform("train"))
+    val_set = CustomDataset(val_df, transform=get_transform("test"))
+    test_set = TestDataset(transform=get_transform("test"))
+    # train_set = ImageFolder(root = DATA_DIR+"/Train",
+    #                     transform = get_transform("train"))
 
-    val_set = ImageFolder(root = DATA_DIR+"/Validation",
-                            transform = get_transform("valid"))
-
-    
+    # val_set = ImageFolder(root = DATA_DIR+"/Validation",
+    #                         transform = get_transform("valid"))
     train_loader = DataLoader(dataset=train_set,
                                 batch_size=args.batch_size,
                                 shuffle=True,
                                 num_workers=4)
-    
     val_loader = DataLoader(dataset=val_set,
                             batch_size=args.batch_size,
                             shuffle=False,
                             num_workers=4)
+    test_loader = DataLoader(dataset=test_set,
+                            batch_size=args.batch_size,
+                            shuffle=False,
+                            num_workers=4)
     
-    
-    return train_loader, val_loader, 5
+    return train_loader, val_loader,  test_loader, 5
 
 
 def get_transform(param):
     if param == "train":
         transform = transforms.Compose([
+                        transforms.Resize(224),
                         transforms.RandomHorizontalFlip(),
                         transforms.ToTensor(),
                     ])
-    elif param == "valid":
+    elif param == "test":
         transform = transforms.Compose([
+                        transforms.Resize(224),
                         transforms.ToTensor(),
                     ])
     return transform

@@ -80,7 +80,7 @@ def get_optimizer_and_scheduler(model, args, iter_per_epoch):
     if args.optimizer == 'sgd':
         optimizer = SGD(parameter, args.lr, args.momentum, weight_decay=args.weight_decay, nesterov=args.nesterov)
     elif args.optimizer == 'adamw':
-        optimizer = AdamW(parameter, args.lr, betas=args.betas, eps=args.eps, weight_decay=args.weight_decay)
+        optimizer = AdamW(parameter, args.lr, eps=args.eps)
     elif args.optimizer == 'rmsprop':
         optimizer = RMSprop(parameter, args.lr, eps=args.eps, momentum=args.momentum, weight_decay=args.weight_decay)
     else:

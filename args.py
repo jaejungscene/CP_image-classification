@@ -23,11 +23,11 @@ def get_args_parser():
     optimizer.add_argument('--weight-decay', type=float, default=1e-3, help='optimizer weight decay')
     optimizer.add_argument('--nesterov', action='store_true', default=True, help='use nesterov momentum')
     optimizer.add_argument('--betas', type=float, nargs=2, default=[0.9, 0.999], help='adam optimizer beta parameter')
-    optimizer.add_argument('--eps', type=float, default=1e-6, help='optimizer eps')
+    optimizer.add_argument('--eps', type=float, default=1e-8, help='optimizer eps')
     optimizer.add_argument('--decay-rate', type=float, default=0.1, help='lr decay rate')
 
     scheduler = parser.add_argument_group('scheduler')
-    scheduler.add_argument('--scheduler', type=str, default='cosine', help='lr scheduler')
+    scheduler.add_argument('--scheduler', type=str, default='cosinerestarts', help='lr scheduler')
     scheduler.add_argument('--cosine-freq', type=int, default=5, help='cosine scheduler frequency')
     scheduler.add_argument('--restart-epoch', type=int, default=20, help='warmup restart epoch period')
     scheduler.add_argument('--three-phase', action='store_true', help='one cycle lr three phase')
