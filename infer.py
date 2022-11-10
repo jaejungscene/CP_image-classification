@@ -71,7 +71,7 @@ def model_infer():
             model_preds += [T[temp[0]]]
     print(len(model_preds))
     submit["result"] = model_preds
-    submit.to_csv('/home/ljj0512/private/workspace/CP_urban-datathon_CT/submit10.csv', index=False)
+    submit.to_csv('/home/ljj0512/private/workspace/CP_urban-datathon_CT/submit12.csv', index=False)
 
 
 # python main.py --action train --seed 0 --model efficientnet-b6 --epochs 100 --batchsize 16 --savepath savemodel

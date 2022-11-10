@@ -32,11 +32,8 @@ model_names = sorted(name for name in models.__dict__
                      and callable(models.__dict__[name]))
 
 result_folder_name = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-best_err1 = 100
-best_err5 = 100
 best_acc = -1
 best_f1 = -1
-best_model = None
 
 def seed_everything(seed):
     random.seed(seed)
