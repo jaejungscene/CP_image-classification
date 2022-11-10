@@ -3,7 +3,7 @@ from datetime import datetime
 result_folder_name = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
 
 def get_args_parser():
-    parser = argparse.ArgumentParser(description='training CIFAR-10, CIFAR-100 for self-directed research')
+    parser = argparse.ArgumentParser(description='competition')
     parser.add_argument("--fold", default = 5, type = int)
     parser.add_argument('--model', default='resnet', type=str, help='networktype: resnet')
     parser.add_argument('--batch_size', default=128, type=int, metavar='N', help='mini-batch size (default: 256)')
@@ -17,6 +17,9 @@ def get_args_parser():
     parser.add_argument('--device', default="cuda:0", type=str)
     parser.add_argument('--cude', default="0", type=str)
 
+    loss = parser.add_argument_group('loss')
+    loss.add_argument('--label_smooth', type=float, default=0.0, help='optimizer name')
+
     optimizer = parser.add_argument_group('optimizer')
     optimizer.add_argument('--optimizer', type=str, default='adamw', help='optimizer name')
     optimizer.add_argument('--momentum', type=float, default=0.9, help='optimizer momentum')
@@ -28,7 +31,7 @@ def get_args_parser():
 
     scheduler = parser.add_argument_group('scheduler')
     scheduler.add_argument('--scheduler', type=str, default='cosinerestarts', help='lr scheduler')
-    scheduler.add_argument('--cosine-freq', type=int, default=5, help='cosine scheduler frequency')
+    scheduler.add_argument('--cosine-freq', type=int, default=4, help='cosine scheduler frequency')
     scheduler.add_argument('--restart-epoch', type=int, default=20, help='warmup restart epoch period')
     scheduler.add_argument('--three-phase', action='store_true', help='one cycle lr three phase')
     scheduler.add_argument('--step-size', type=int, default=2, help='lr decay step size')
@@ -37,6 +40,7 @@ def get_args_parser():
     scheduler.add_argument('--warmup-epoch', type=int, default=5, help='warmup epoch')
     scheduler.add_argument('--warmup-scheduler', type=str, default='linear', help='warmup lr scheduler type')
     scheduler.add_argument('--warmup-lr', type=float, default=1e-4, help='warmup start lr')
+    scheduler.add_argument('--eta_max', type=float, default=1e-1, help='cosinerestarts max lr')
 
     parser.add_argument('--distil', type=int, default=0, help='choose whether to do knowledge distillation')
     parser.add_argument('--distil_type', type=str, default='hard', help='choose what type of knowledge distillation')

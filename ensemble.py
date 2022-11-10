@@ -8,7 +8,8 @@ import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
 from dataset import get_transform
 from PIL import Image
-from torchvision.models import  EfficientNet_B6_Weights, EfficientNet_B0_Weights, EfficientNet_B7_Weights
+from torchvision.models import  EfficientNet_B6_Weights, EfficientNet_V2_M_Weights
+
 
 class TestDataset(Dataset):
     def __init__(self, transform=None):
@@ -23,18 +24,21 @@ class TestDataset(Dataset):
         image = self.transform(Image.open(os.path.join(self.dir,img_path)))
         return image
 
+
 def main():
+    num_class = 5
+    path = "/home/ljj0512/private/workspace/CP_urban-datathon_CT/weights"
     test_set = TestDataset(transform=get_transform("test"))
     test_loader = DataLoader(dataset=test_set,
-                            batch_size=2,
+                            batch_size=1,
                             shuffle=False,
                             num_workers=4)
-    # path = "/home/ljj0512/private/workspace/CP_urban-datathon_CT/log/10:12:24_effv2-m_f1-0.99_acc-99.8/checkpoint.pth.tar""
-    path = "/home/ljj0512/private/workspace/CP_urban-datathon_CT/log/2022-11-10 13:35:10/checkpoint.pth.tar"
+    path = "/home/ljj0512/private/workspace/CP_urban-datathon_CT/log/08:31:19_eff-b6_f1-0.99_acc-99.7/checkpoint.pth.tar"
+
+    
     checkpoint = torch.load(path)
-    model = models.efficientnet_v2_m()
-    model.classifier[1] = nn.Linear(in_features=1280, out_features=5, bias=True)
-    # model.classifier[1] = nn.Linear(in_features=2304, out_features=5, bias=True)
+    model = models.efficientnet_b6()
+    model.classifier[1] = nn.Linear(in_features=2304, out_features=5, bias=True)
     model.load_state_dict(checkpoint['state_dict'])    
     # model = nn.DataParallel(model)
     inference(model, test_loader)

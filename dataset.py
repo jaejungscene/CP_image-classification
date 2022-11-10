@@ -5,7 +5,6 @@ import torch
 import torchvision.transforms as transforms
 from torch.utils.data import Dataset, DataLoader
 import torchvision.datasets as datasets
-from utils import ColorJitter, Lighting
 from torchvision.datasets import ImageFolder
 from PIL import Image
 from skimage import io
@@ -30,10 +29,11 @@ class CustomDataset(Dataset):
         label = self.df["label"].iloc[index]
         return [image, label]
 
+
 class TestDataset(Dataset):
     def __init__(self, transform=None):
         self.transform = transform
-        self.dir = "/home/ljj0512/shared/data/test"
+        self.dir = "/home/ljj0512/private/workspace/CP_urban-datathon_CT/test"
     
     def __len__(self):
         return len(os.listdir(self.dir))
@@ -48,7 +48,7 @@ def create_dataloader(args):
     train_df = pd.read_csv("train_df.csv")
     val_df = pd.read_csv("val_df.csv")
     train_set = CustomDataset(train_df, transform=get_transform("train"))
-    val_set = CustomDataset(val_df, transform=get_transform("test"))
+    val_set = CustomDataset(val_df, transform=get_transform("val"))
     test_set = TestDataset(transform=get_transform("test"))
     # train_set = ImageFolder(root = DATA_DIR+"/Train",
     #                     transform = get_transform("train"))
@@ -75,10 +75,20 @@ def get_transform(param):
     if param == "train":
         transform = transforms.Compose([
                         transforms.RandomHorizontalFlip(),
+                        transforms.RandomVerticalFlip(),
+                        transforms.RandomAdjustSharpness(sharpness_factor=2),
+                        transforms.ToTensor(),
+                    ])
+    elif param == "val":
+        transform = transforms.Compose([
+                        transforms.RandomHorizontalFlip(),
+                        transforms.RandomVerticalFlip(),
+                        transforms.RandomAdjustSharpness(sharpness_factor=2),
                         transforms.ToTensor(),
                     ])
     elif param == "test":
         transform = transforms.Compose([
+                        transforms.RandomAdjustSharpness(sharpness_factor=2),
                         transforms.ToTensor(),
                     ])
     return transform

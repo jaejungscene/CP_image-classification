@@ -27,12 +27,13 @@ def printSave_end_state(args, best_err1, best_err5, total_time):
 
 
 def printSave_start_condition(args):
-    print(args.expname)
     print("=> batch size:\t'{}'".format(args.batch_size))
     print("=> epochs:\t'{}'".format(args.epoch))
-    print("=> lr:\t'{}'".format(args.lr))
+    print("=> lr:\t\t'{}'".format(args.lr))
     print("=> optimizer:\t'{}'".format(args.optimizer))
     print("=> scheduler:\t'{}'".format(args.scheduler))
+    print(args.expname)
+    print("="*100)
 
     # directory = "log/%s/" % (args.expname)
     # if not os.path.exists(directory):

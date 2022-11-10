@@ -10,3 +10,5 @@ check*
 *.csv
 *.zip
 test*
+*.pt
+weights
