@@ -11,6 +11,8 @@ import numpy as np
 from dataset import *
 from utils import *
 import random
+from torchvision.models import  EfficientNet_B6_Weights, EfficientNet_B0_Weights, EfficientNet_B7_Weights
+import torchvision.models as models
 
 import wandb
 import torch.optim as optim
@@ -71,7 +73,7 @@ def model_infer():
             model_preds += [T[temp[0]]]
     print(len(model_preds))
     submit["result"] = model_preds
-    submit.to_csv('/home/ljj0512/private/workspace/CP_urban-datathon_CT/submit12.csv', index=False)
+    submit.to_csv('/home/ljj0512/private/workspace/CP_urban-datathon_CT/submit13.csv', index=False)
 
 
 # python main.py --action train --seed 0 --model efficientnet-b6 --epochs 100 --batchsize 16 --savepath savemodel

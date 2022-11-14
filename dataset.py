@@ -88,7 +88,7 @@ def get_transform(param):
                     ])
     elif param == "test":
         transform = transforms.Compose([
-                        transforms.RandomAdjustSharpness(sharpness_factor=2),
+                        # transforms.RandomAdjustSharpness(sharpness_factor=2),
                         transforms.ToTensor(),
                     ])
     return transform

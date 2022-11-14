@@ -32,16 +32,16 @@ def main():
                             shuffle=False,
                             num_workers=4)
     # path = "/home/ljj0512/private/workspace/CP_urban-datathon_CT/log/10:12:24_effv2-m_f1-0.99_acc-99.8/checkpoint.pth.tar""
-    path = "/home/ljj0512/private/workspace/CP_urban-datathon_CT/log/13:35:10/checkpoint.pth.tar"
-    checkpoint = torch.load(path)
+    path = "/home/ljj0512/private/workspace/CP_urban-datathon_CT/log/13:35:10/checkpoint.pth"
+    # checkpoint = torch.load(path)
     
     model = models.efficientnet_v2_m()
     model.classifier[1] = nn.Linear(in_features=1280, out_features=5, bias=True)
     # model = models.efficientnet_b6(weights=EfficientNet_B6_Weights.DEFAULT)
     # model.classifier[1] = nn.Linear(in_features=2304, out_features=5, bias=True)
 
-    model.load_state_dict(checkpoint['state_dict'])    
-    # model = nn.DataParallel(model)
+    model.load_state_dict(torch.load(path)['state_dict'])    
+    model = nn.DataParallel(model)
     inference(model, test_loader)
 
 
